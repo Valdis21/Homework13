@@ -56,5 +56,6 @@ public class App {
 
         boolean hasBananInEmptyBasket = basket.containsProductByName("Банан");
         System.out.println("Есть ли банан в пустой корзине? " + hasBananInEmptyBasket);
+
     }
 }
