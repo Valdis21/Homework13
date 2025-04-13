@@ -45,10 +45,15 @@ public class ProductBasket {
         if (count == 0) {
             System.out.println("В корзине пусто");
         } else {
-            for (int i = 0; i < count; i++) {
-                System.out.println(products[i].getTitle() + ": " + products[i].getPrice());
+            int specialCount = 0;
+            for (Product p : products) {
+                System.out.println(p.toString());
+                if (p.isSpecial()) {
+                    specialCount++;
+                }
             }
             System.out.println("Итого " + getTotalCost());
+            System.out.println("Специальных товаров " + specialCount);
         }
     }
 }
