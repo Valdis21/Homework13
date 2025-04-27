@@ -4,6 +4,9 @@ import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.article.Article;
+import org.skypro.skyshop.search.SearchEngine;
+import org.skypro.skyshop.search.Searchable;
 
 public class App {
     public static void main(String[] args) {
@@ -58,5 +61,31 @@ public class App {
         boolean hasBananInEmptyBasket = basket.containsProductByName("Банан");
         System.out.println("Есть ли банан в пустой корзине? " + hasBananInEmptyBasket);
 
+        SearchEngine engine = new SearchEngine(8);
+
+        Article articleBanan = new Article("В чем польза банана", "5 полезных свойств банана");
+        Article articleApple = new Article("Сорта яблока", "Новые сорта яблок");
+        Article articleMilk = new Article("Полезно ли молоко?", "В чем польза употребления молока?");
+
+        engine.add(banan);
+        engine.add(apple);
+        engine.add(milk);
+        engine.add(articleBanan);
+        engine.add(articleApple);
+        engine.add(articleMilk);
+
+        testSearch(engine, "Банан");
+        testSearch(engine, "Яблоко");
+        testSearch(engine, "Молоко");
+    }
+
+    private static void testSearch(SearchEngine engine, String query) {
+        System.out.println("\n === Поиск по запросу " + query + " ===");
+        Searchable[] results = engine.search(query);
+        for (Searchable item : results) {
+            if (item != null) {
+                System.out.println(item.getStringRepresentation());
+            }
+        }
     }
 }
