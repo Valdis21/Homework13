@@ -5,18 +5,36 @@ import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.article.Article;
+import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BestResultNotFound {
         ProductBasket basket = new ProductBasket();
 
-        SimpleProduct banan = new SimpleProduct("Банан", 120);
-        SimpleProduct apple = new SimpleProduct("Яблоко", 150);
-        SimpleProduct milk = new SimpleProduct("Молоко", 80);
-        DiscountedProduct meat = new DiscountedProduct("Мясо", 160, 25);
-        FixPriceProduct sugar = new FixPriceProduct("Сахар");
+        SimpleProduct banan = null;
+        SimpleProduct apple = null;
+        SimpleProduct milk = null;
+        DiscountedProduct meat = null;
+        FixPriceProduct sugar = null;
+
+        try {
+            banan = new SimpleProduct("Банан", 120);
+            apple = new SimpleProduct("Яблоко", 150);
+            milk = new SimpleProduct("Молоко", 80);
+            meat = new DiscountedProduct("Мясо", 160, 25);
+            sugar = new FixPriceProduct("Сахар");
+
+            SimpleProduct chocolate = new SimpleProduct("Шоколад", 0);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+        try {
+            DiscountedProduct grape = new DiscountedProduct("Виноград", 150, 180);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
 
         basket.addProduct(banan);
         basket.addProduct(apple);
@@ -50,9 +68,7 @@ public class App {
         SimpleProduct salat = new SimpleProduct("Салат", 60);
 
         basket.addProduct(salat);
-
         basket.clearBasket();
-
         basket.printContents();
 
         int emptyTotalCost = basket.getTotalCost();
@@ -73,6 +89,20 @@ public class App {
         engine.add(articleBanan);
         engine.add(articleApple);
         engine.add(articleMilk);
+
+        try {
+            Searchable result = engine.bestMatch("Банан");
+            System.out.println("Поиск выполнен успешно: " + result.getName() + " найден.");
+        } catch (BestResultNotFound e) {
+            System.err.println("Ошибка: " + e.getMessage());
+        }
+
+        try {
+            Searchable result = engine.bestMatch("Ананас");
+            System.out.println("Поиск выполнен успешно: " + result.getName() + " найден.");
+        } catch (BestResultNotFound e) {
+            System.err.println("Ошибка: " + e.getMessage());
+        }
 
         testSearch(engine, "Банан");
         testSearch(engine, "Яблоко");

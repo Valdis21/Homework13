@@ -6,6 +6,9 @@ public abstract class Product implements Searchable {
     private String title;
 
     public Product(String title) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Имя товара не задано.");
+        }
         this.title = title;
     }
 
@@ -29,6 +32,9 @@ public abstract class Product implements Searchable {
     }
 
     public void setTitle(String title) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Имя не задано.");
+        }
         this.title = title;
     }
 
