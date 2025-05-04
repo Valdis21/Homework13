@@ -1,5 +1,8 @@
 package org.skypro.skyshop.search;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class SearchEngine {
     private Searchable[] data;
     private int currentIndex = 0;
@@ -28,7 +31,7 @@ public class SearchEngine {
                 }
             }
         }
-        if (bestMatch == null){
+        if (bestMatch == null) {
             throw new BestResultNotFound("Не найдена статья по запросу " + search);
         }
         return bestMatch;
@@ -49,12 +52,11 @@ public class SearchEngine {
         return count;
     }
 
-    public Searchable[] search(String query) {
-        Searchable[] results = new Searchable[5];
-        int index = 0;
+    public Map<String, Searchable> search(String query) {
+        Map<String, Searchable> results = new TreeMap<>();
         for (Searchable element : data) {
             if (element != null && element.getSearchTerm().contains(query)) {
-                results[index++] = element;
+                results.put(element.getName(), element);
             }
         }
         return results;
