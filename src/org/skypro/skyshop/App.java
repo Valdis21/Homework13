@@ -3,11 +3,14 @@ package org.skypro.skyshop.app;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
+import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
+
+import java.util.List;
 
 public class App {
     public static void main(String[] args) throws BestResultNotFound {
@@ -39,8 +42,28 @@ public class App {
         basket.addProduct(banan);
         basket.addProduct(apple);
         basket.addProduct(milk);
+        basket.addProduct(milk);
         basket.addProduct(meat);
         basket.addProduct(sugar);
+
+        basket.printContents();
+
+        List<Product> deletedProducts = basket.removeProductsByName("Молоко");
+        if (!deletedProducts.isEmpty()) {
+            System.out.println("Был удален товар");
+            for (Product p : deletedProducts) {
+                System.out.println(p.getTitle());
+            }
+        }else {
+            System.out.println("Нет товаров для удаления");
+        }
+
+        basket.printContents();
+
+        deletedProducts = basket.removeProductsByName("Апельсин");
+        if (deletedProducts.isEmpty()) {
+            System.out.println("Спиcок удаленных продуктов пуст.");
+        }
 
         basket.printContents();
 
